@@ -11,13 +11,17 @@ import '../../business_logic/cubit/cubit.dart';
 class TaskTile extends StatelessWidget {
   TaskTile({Key? key, required this.task}) : super(key: key);
   Task task;
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double width = mediaQueryData.size.width;
     // double height = mediaQueryData.size.height;
     Orientation orientation = mediaQueryData.orientation;
-
+    // if (task.startTime ==
+    //     DateFormat('hh:mm a').format(DateTime.now()).toString()) {
+    //       AndroidAlarmManager.oneShotAt(DateFormat('hh:mm a').format(DateTime.now()), task.id!, callback)
+    //     }
     return BlocBuilder<AppCubit, TaskStetes>(builder: (context, state) {
       return GestureDetector(
         onTap: () {

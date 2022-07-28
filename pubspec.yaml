@@ -42,6 +42,7 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
   flutter_launcher_icons: ^0.9.3
   top_snackbar_flutter: ^2.1.1
+  android_alarm_manager_plus: ^2.0.6
 
 dev_dependencies:
   flutter_test:
