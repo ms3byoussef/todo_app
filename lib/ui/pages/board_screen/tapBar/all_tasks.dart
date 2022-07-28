@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../../../business_logic/cubit/cubit.dart';
 import '../../../../business_logic/cubit/states.dart';
@@ -25,7 +26,16 @@ class MyList extends StatelessWidget {
                     itemCount: myTasks.length,
                     shrinkWrap: true,
                     itemBuilder: ((BuildContext context, int index) =>
-                        TaskTile(task: myTasks[index])),
+                        AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: const Duration(milliseconds: 1225),
+                          child: SlideAnimation(
+                            horizontalOffset: 300,
+                            child: FadeInAnimation(
+                              child: TaskTile(task: myTasks[index]),
+                            ),
+                          ),
+                        )),
                   ));
       },
     );

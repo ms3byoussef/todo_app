@@ -3,6 +3,7 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/ui/pages/add_task/add_task_screen.dart';
 import 'package:todo/ui/theme.dart';
@@ -113,10 +114,37 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           : ListView.builder(
                               itemCount: AppCubit.get(context).allTasks.length,
                               shrinkWrap: true,
-                              itemBuilder: ((BuildContext context, int index) =>
-                                  TaskTile(
-                                      task: AppCubit.get(context)
-                                          .allTasks[index])),
+                              itemBuilder: ((BuildContext context, int index) {
+                                var task =
+                                    AppCubit.get(context).allTasks[index];
+                                if ((task.repeat == "Daily" ||
+                                        task.date ==
+                                            DateFormat.yMd()
+                                                .format(_selectedValue)) ||
+                                    (task.repeat == "Weekly" &&
+                                        _selectedValue
+                                                    .difference(DateFormat.yMd()
+                                                        .parse(task.date!))
+                                                    .inDays %
+                                                7 ==
+                                            0) ||
+                                    (task.repeat == "Monthly" &&
+                                        DateFormat.yMd()
+                                                .parse(task.date!)
+                                                .day ==
+                                            _selectedValue.day)) {
+                                  return AnimationConfiguration.staggeredList(
+                                      position: index,
+                                      duration:
+                                          const Duration(milliseconds: 1225),
+                                      child: SlideAnimation(
+                                          horizontalOffset: 300,
+                                          child: FadeInAnimation(
+                                              child: TaskTile(task: task))));
+                                } else {
+                                  return const SizedBox();
+                                }
+                              }),
                             ),
                     ),
                   ],

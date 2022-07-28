@@ -87,8 +87,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       ),
                       InputField(
                         label: "date",
-                        hintText:
-                            DateFormat('dd/MM/yyyy').format(_selectedDate),
+                        hintText: DateFormat.yMd().format(_selectedDate),
                         keyboardType: TextInputType.none,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.calendar_month_outlined),
@@ -229,7 +228,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       Task task = Task(
         title: _titleController.text,
         note: _noteController.text,
-        date: DateFormat('dd/MM/yyyy').format(_selectedDate),
+        date: DateFormat.yMd().format(_selectedDate),
         startTime: _stratTime,
         endTime: _endTime,
         color: _selectedColor,

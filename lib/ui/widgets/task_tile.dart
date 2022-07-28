@@ -102,9 +102,9 @@ class TaskTile extends StatelessWidget {
         context: context,
         builder: (_) => SingleChildScrollView(
               child: Container(
-                  padding: EdgeInsets.only(top: 4),
+                  padding: const EdgeInsets.only(top: 4, right: 16, left: 16),
                   height: task.isCompleted == 1
-                      ? MediaQuery.of(context).size.height * .5
+                      ? MediaQuery.of(context).size.height * .4
                       : MediaQuery.of(context).size.height * .5,
                   width: MediaQuery.of(context).size.width,
                   color: white,
@@ -127,7 +127,7 @@ class TaskTile extends StatelessWidget {
                                     .updateToDatebase(1, task.id);
                                 Navigator.pop(context);
                               },
-                              color: primaryClr),
+                              color: teal),
                       const Divider(
                         color: Colors.grey,
                       ),
@@ -137,18 +137,21 @@ class TaskTile extends StatelessWidget {
                             AppCubit.get(context).deleteFromDatabase(task.id);
                             Navigator.pop(context);
                           },
-                          color: primaryClr),
+                          color: Colors.red),
                       const Divider(
                         color: Colors.grey,
                       ),
                       _buildBottomSheet(
                           title: "Favorite",
                           onTap: () {
-                            AppCubit.get(context)
-                                .updateIsFavoriteDatebase(1, task.id);
+                            task.isFavorite == 0
+                                ? AppCubit.get(context)
+                                    .updateIsFavoriteDatebase(1, task.id)
+                                : AppCubit.get(context)
+                                    .updateIsFavoriteDatebase(0, task.id);
                             Navigator.pop(context);
                           },
-                          color: primaryClr),
+                          color: pinkClr),
                       const Divider(
                         color: Colors.grey,
                       ),
@@ -157,7 +160,7 @@ class TaskTile extends StatelessWidget {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          color: primaryClr)
+                          color: orangeClr)
                     ],
                   )),
             ));
@@ -166,11 +169,12 @@ class TaskTile extends StatelessWidget {
   _buildBottomSheet(
       {required String title,
       required Function() onTap,
-      required Color color,
+      required Color? color,
       bool isClose = false}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         margin: const EdgeInsets.symmetric(vertical: 4),
         height: 65,
         decoration: BoxDecoration(
